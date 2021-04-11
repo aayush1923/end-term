@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width",intial-scale="1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function validateForm() {
+  var x = document.forms["myForm"]["country"].value;
+  if (x == "" || x == null) {
+    alert("Name must be filled out");
+    return false;
+  }
+}
+
+$(document).ready(function(){
+  $("#submit").click(function(){
+     validateForm();
+  });
+});
+</script>
+
+
+    <style>
+body{
+ text-align:center;
+ margin:60px;
+ background-image:url('https://media.npr.org/assets/img/2020/02/11/sciencesource_ss22502136_wide-4db0dc0052033a7ceb7b5a2a224144272874adbb-s1600-c85.webp');
+ background-repeat:no-repeat;
+ background-size:cover;
+}
+
+</style>
+</head>
+<body>
+
+
+<form id="myForm">
+
+    <input type="text" id="country" placeholder="country">
+    <input type="date" id="dateOne" placeholder="dd-mm-yyyy">
+    <input type="date" id="dateTwo" placeholder="dd-mm-yyy">
+    <input type="submit" id="submit" value="submit">
+   
+
+
+</form>
+<br>
+<h2 id="confirmed"></h2>
+<h2 id="recovered"></h2>
+<h2 id="deaths"></h2>
+</body>
+<script>
+    var myForm=document.getElementById('myForm')
+
+    myForm.addEventListener('submit',function(e){
+    e.preventDefault()
+     var country= document.getElementById('country').value
+      var dateOne= document.getElementById('dateOne').value
+     var dateTwo= document.getElementById('dateTwo').value 
+  
+    var url="https://api.covid19api.com/country/"+country;
+    fetch(url)
+    .then((res)=>res.json())
+    .then((res)=>{
+    var length=res.length;
+    var index=length-1;
+    var confirmed=document.getElementById('confirmed')
+    var recovered=document.getElementById('recovered')
+    var deaths=document.getElementById('deaths')
+
+    confirmed.innerHTML=''
+    recovered.innerHTML=''
+    deaths.innerHTML=''
+
+    confirmed.append("total confirmed : "+res[index].Confirmed)
+     recovered.append("total recovered :"+res[index].Recovered)
+      deaths.append("total deaths :"+res[index].Deaths)
+    })
+
+    })
+
+
+</script>
+</html>
